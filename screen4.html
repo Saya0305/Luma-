@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoWater - Осадок</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2 id="ui-title">Использование</h2>
+            <div class="language-switch">
+                <button class="lang-btn" id="l-ru" onclick="setLang('ru')">RU</button>
+                <button class="lang-btn" id="l-kz" onclick="setLang('kz')">KZ</button>
+                <button class="lang-btn" id="l-en" onclick="setLang('en')">EN</button>
+            </div>
+        </div>
+
+        <div class="card" style="background:#00b4d8; color:white; text-align:center; padding:15px; border-radius:20px;">
+            <span id="ui-stock">Запас:</span> <b id="p-val">0</b> г
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0;">
+            <div class="card" onclick="show('home')" style="text-align:center; cursor:pointer;">🏠 <b id="c1">Быт</b></div>
+            <div class="card" onclick="show('garden')" style="text-align:center; cursor:pointer;">🌿 <b id="c2">Сад</b></div>
+            <div class="card" onclick="show('art')" style="text-align:center; cursor:pointer;">🎨 <b id="c3">Искусство</b></div>
+            <div class="card" onclick="show('build')" style="text-align:center; cursor:pointer;">🧱 <b id="c4">Ремонт</b></div>
+        </div>
+
+        <div id="adv-disp" class="card" style="display:none; border-left:5px solid #00b4d8;">
+            <h3 id="adv-h" style="color:#0077b6; margin-top:0;"></h3>
+            <div id="adv-l" style="font-size:14px; line-height:1.6;"></div>
+        </div>
+
+        <div style="height:300px; border-radius:20px; overflow:hidden; border:1px solid #ddd; margin-top:10px; margin-bottom:80px;">
+            <iframe src="https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2026/03/28/15/20260328150302-BLLC6VPR.json" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item">🏠<br><span>Инфо</span></a>
+        <a href="screen2.html" class="nav-item">💧<br><span>Ввод</span></a>
+        <a href="screen3.html" class="nav-item">📊<br><span>Анализ</span></a>
+        <a href="screen4.html" class="nav-item active">🌱<br><span>Осадок</span></a>
+        <a href="screen5.html" class="nav-item">📈<br><span>История</span></a>
+    </nav>
+
+    <script>
+        const tipsData = {
+            ru: { 
+                title:"Советы", stock:"Ваш запас:", h:"Быт", g:"Сад", a:"Искусство", b:"Ремонт",
+                home: ["Чистка серебра", "Удаление жира с плиты", "Полировка кранов", "Средство для раковин", "Осушитель обуви", "Поглотитель запаха", "Защита от влаги", "Чистка швов", "Скраб для посуды", "Удаление нагара"],
+                garden: ["Раскисление почвы", "Защита от слизней", "Побелка деревьев", "Добавка в компост", "Удобрение томатов", "Дренаж горшков", "Укрепление корней", "Защита луковиц", "Чистка лопат", "Борьба с мхом"],
+                art: ["Текстурная паста", "Мелки DIY", "Грунт холста", "Декор ваз", "Загуститель красок", "Матовый эффект", "Объемный арт", "Лепка деталей", "Очистка кистей", "Эко-пастель"],
+                build: ["Затирка трещин", "Швы плитки", "Добавка в цемент", "Побелка гаража", "Защита балок", "Чистка от ржавчины", "Шпатлевка", "Укрепление штукатурки", "Грунт стен", "Эко-краска"]
+            },
+            kz: { 
+                title:"Кеңестер", stock:"Сіздің қорыңыз:", h:"Тұрмыс", g:"Бақша", a:"Өнер", b:"Жөндеу",
+                home: ["Күміс тазалау", "Майды кетіру", "Кран жылтырату", "Раковина тазартқыш", "Аяқ киім кептіргіш", "Иіс жою", "Ылғалдан қорғау", "Жіктерді тазалау", "Ыдыс скрабы", "Үтік тазалау"],
+                garden: ["Топырақты өңдеу", "Ұлулардан қорғау", "Ағаш ақтау", "Компост қоспасы", "Қызанақ тыңайтқышы", "Дренаж жасау", "Тамыр нығайту", "Гүл қорғау", "Құрал тазалау", "Мүкпен күрес"],
+                art: ["Текстуралық паста", "Қолдан жасалған бор", "Кенеп ақтау", "Ваза декоры", "Бояу қоюлату", "Матовый бояу", "Көлемді арт", "Мүсіндеу", "Қылқалам тазалау", "Эко-пастель"],
+                build: ["Жіктерді бітеу", "Жарықтарды жөндеу", "Цемент қоспасы", "Гараж ақтау", "Ағашты қорғау", "Тот тазалау", "Шпатлевка", "Сылақты нығайту", "Қабырға ақтау", "Эко-бояу"]
+            },
+            en: { 
+                title:"Tips", stock:"Your stock:", h:"Home", g:"Garden", a:"Art", b:"Build",
+                home: ["Silver polish", "Grease removal", "Tap polishing", "Sink cleaner", "Shoe dryer", "Odor absorber", "Moisture protection", "Grout cleaning", "Dish scrub", "Iron cleaning"],
+                garden: ["Soil deacidifying", "Slug protection", "Tree whitening", "Compost additive", "Tomato fertilizer", "Drainage", "Root strengthen", "Bulb protection", "Tool cleaning", "Moss control"],
+                art: ["Texture paste", "DIY Chalk", "Canvas priming", "Vase decor", "Paint thickener", "Matte effect", "Volume art", "Small sculpting", "Brush cleaning", "Eco-pastel"],
+                build: ["Crack filling", "Tile grout", "Cement additive", "Garage whitening", "Beam protection", "Rust removal", "Homemade putty", "Plaster help", "Wall primer", "Eco-paint"]
+            }
+        };
+
+        let currentCat = null;
+
+        function setLang(l) {
+            localStorage.setItem('appLang', l);
+            const t = tipsData[l];
+            document.getElementById('ui-title').innerText = t.title;
+            document.getElementById('ui-stock').innerText = t.stock;
+            document.getElementById('c1').innerText = t.h; document.getElementById('c2').innerText = t.g;
+            document.getElementById('c3').innerText = t.a; document.getElementById('c4').innerText = t.b;
+            
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.id === 'l-'+l));
+            
+            const s = JSON.parse(localStorage.getItem('waterSession'));
+            if(s) document.getElementById('p-val').innerText = s.p;
+            
+            if(currentCat) show(currentCat); // Обновляем открытые советы при смене языка
+        }
+
+        function show(cat) {
+            currentCat = cat;
+            const l = localStorage.getItem('appLang') || 'ru';
+            const t = tipsData[l];
+            document.getElementById('adv-h').innerText = t[cat === 'home'?'h':cat === 'garden'?'g':cat === 'art'?'a':'b'];
+            document.getElementById('adv-l').innerHTML = t[cat].map(i => `• ${i}<br>`).join('');
+            document.getElementById('adv-disp').style.display = 'block';
+        }
+        window.onload = () => setLang(localStorage.getItem('appLang') || 'ru');
+    </script>
+</body>
+</html>

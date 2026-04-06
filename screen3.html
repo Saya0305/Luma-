@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoWater - Анализ</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2 id="ui-title">Результаты</h2>
+            <div class="language-switch">
+                <button class="lang-btn" id="l-ru" onclick="setLang('ru')">RU</button>
+                <button class="lang-btn" id="l-kz" onclick="setLang('kz')">KZ</button>
+                <button class="lang-btn" id="l-en" onclick="setLang('en')">EN</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <p id="ui-h">Жесткость (mg/l)</p>
+            <div style="display:flex; justify-content:space-around; text-align:center;">
+                <div><small class="ui-before">До</small><br><b id="h-b" class="old-val">0</b></div>
+                <div><small class="ui-after">После</small><br><b class="new-val">2.0</b></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <p id="ui-ph">Уровень pH</p>
+            <div style="display:flex; justify-content:space-around; text-align:center;">
+                <div><small class="ui-before">До</small><br><b id="ph-b" class="old-val">0</b></div>
+                <div><small class="ui-after">После</small><br><b class="new-val">7.2</b></div>
+            </div>
+        </div>
+
+        <div id="status-box" style="padding:15px; border-radius:20px; text-align:center; color:white; font-weight:bold;"></div>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item">🏠<br><span>Инфо</span></a>
+        <a href="screen2.html" class="nav-item">💧<br><span>Ввод</span></a>
+        <a href="screen3.html" class="nav-item active">📊<br><span>Анализ</span></a>
+        <a href="screen4.html" class="nav-item">🌱<br><span>Осадок</span></a>
+        <a href="screen5.html" class="nav-item">📈<br><span>История</span></a>
+    </nav>
+
+    <script>
+        const texts = {
+            ru: { title:"Анализ", h:"Жесткость", ph:"Уровень pH", bef:"До", aft:"После", ok:"Вода чистая", bad:"Высокая жесткость" },
+            kz: { title:"Талдау", h:"Қаттылық", ph:"pH деңгейі", bef:"Дейін", aft:"Кейін", ok:"Су таза", bad:"Қаттылық жоғары" },
+            en: { title:"Analysis", h:"Hardness", ph:"pH Level", bef:"Before", aft:"After", ok:"Clean Water", bad:"High Hardness" }
+        };
+
+        function setLang(l) {
+            localStorage.setItem('appLang', l);
+            const t = texts[l];
+            document.getElementById('ui-title').innerText = t.title;
+            document.getElementById('ui-h').innerText = t.h;
+            document.getElementById('ui-ph').innerText = t.ph;
+            
+            // Перевод "До" и "После"
+            document.querySelectorAll('.ui-before').forEach(el => el.innerText = t.bef);
+            document.querySelectorAll('.ui-after').forEach(el => el.innerText = t.aft);
+            
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.id === 'l-'+l));
+
+            const s = JSON.parse(localStorage.getItem('waterSession'));
+            if(s) {
+                document.getElementById('h-b').innerText = s.h;
+                document.getElementById('ph-b').innerText = s.ph;
+                const box = document.getElementById('status-box');
+                box.style.background = s.h > 7 ? "#ff4d4d" : "#80ed99";
+                box.innerText = s.h > 7 ? t.bad : t.ok;
+            }
+        }
+        window.onload = () => setLang(localStorage.getItem('appLang') || 'ru');
+    </script>
+</body>
+</html>

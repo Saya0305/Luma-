@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoWater - Ввод</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2 id="ui-app-name">EcoWater</h2>
+            <div class="language-switch">
+                <button class="lang-btn" id="l-ru" onclick="setLang('ru')">RU</button>
+                <button class="lang-btn" id="l-kz" onclick="setLang('kz')">KZ</button>
+                <button class="lang-btn" id="l-en" onclick="setLang('en')">EN</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 id="ui-page-title">Параметры</h2>
+            <label id="ui-label-reg">Регион:</label>
+            <select id="reg-select" onchange="updateInfo()">
+                <option value="astana">Астана</option>
+                <option value="almaty">Алматы</option>
+                <option value="shymkent">Шымкент</option>
+                <option value="akmola">Акмолинская</option>
+                <option value="aktobe">Актюбинская</option>
+                <option value="atyrau">Атырауская</option>
+                <option value="vko">ВКО</option>
+                <option value="zhambyl">Жамбылская</option>
+                <option value="zko">ЗКО</option>
+                <option value="karaganda">Карагандинская</option>
+                <option value="kostanay">Костанайская</option>
+                <option value="kyzylorda">Кызылординская</option>
+                <option value="mangistau">Мангистауская</option>
+                <option value="pavlodar">Павлодарская</option>
+                <option value="sko">СКО</option>
+                <option value="turkestan">Туркестанская</option>
+                <option value="ulytau">Улытауская</option>
+            </select>
+
+            <p id="h-status" style="text-align:center; color:#00b4d8; font-weight:bold; margin:10px 0;"></p>
+
+            <label id="ui-label-vol">Объем (литры):</label>
+            <input type="number" id="vol-input" placeholder="5">
+
+            <label id="ui-label-src">Источник:</label>
+            <select id="src-select">
+                <option value="tap" id="opt-tap">Водопровод</option>
+                <option value="well" id="opt-well">Скважина</option>
+                <option value="pit" id="opt-pit">Колодец</option>
+            </select>
+
+            <button class="nav-btn" onclick="calculateAll()" id="ui-btn-calc" style="margin-top:15px;">Рассчитать</button>
+
+            <div id="result-summary" style="display:none; margin-top:15px; border-top:1px solid #eee; padding-top:10px;">
+                <div class="metric-card"><span id="ui-res-g">Реагент:</span> <b><span id="res-g">0</span> г</b></div>
+                <div class="metric-card"><span id="ui-res-t">Время:</span> <b><span id="res-t">0</span> мин</b></div>
+                <div class="metric-card"><span id="ui-res-p">Осадок:</span> <b><span id="res-p">0</span> г</b></div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item">🏠<br><span>Инфо</span></a>
+        <a href="screen2.html" class="nav-item active">💧<br><span id="n1">Ввод</span></a>
+        <a href="screen3.html" class="nav-item">📊<br><span id="n2">Анализ</span></a>
+        <a href="screen4.html" class="nav-item">🌱<br><span id="n3">Осадок</span></a>
+        <a href="screen5.html" class="nav-item">📈<br><span id="n4">История</span></a>
+    </nav>
+
+    <script>
+        const waterData = { astana:7, almaty:4.2, shymkent:8.5, akmola:6.5, aktobe:8.2, atyrau:10.5, vko:4, zhambyl:7.2, zko:9, karaganda:7.5, kostanay:8, kyzylorda:9.5, mangistau:11.5, pavlodar:6, sko:7.8, turkestan:8.8, ulytau:8.2 };
+        const translations = {
+            ru: { page:"Параметры", reg:"Регион:", vol:"Объем (л):", src:"Источник:", btn:"Рассчитать", r1:"Реагент:", r2:"Время:", r3:"Осадок:", n1:"Ввод", n2:"Анализ", n3:"Осадок", n4:"История", tap:"Водопровод", well:"Скважина", pit:"Колодец" },
+            kz: { page:"Параметрлер", reg:"Аймақ:", vol:"Көлемі (л):", src:"Көзі:", btn:"Есептеу", r1:"Реагент:", r2:"Уақыт:", r3:"Тұнба:", n1:"Енгізу", n2:"Талдау", n3:"Тұнба", n4:"Тарих", tap:"Құбыр", well:"Ұңғыма", pit:"Құдық" },
+            en: { page:"Parameters", reg:"Region:", vol:"Volume (L):", src:"Source:", btn:"Calculate", r1:"Reagent:", r2:"Time:", r3:"Residue:", n1:"Input", n2:"Analysis", n3:"Residue", n4:"History", tap:"Tap", well:"Borehole", pit:"Well" }
+        };
+
+        function setLang(l) {
+            localStorage.setItem('appLang', l);
+            const t = translations[l];
+            document.getElementById('ui-page-title').innerText = t.page;
+            document.getElementById('ui-label-reg').innerText = t.reg;
+            document.getElementById('ui-label-vol').innerText = t.vol;
+            document.getElementById('ui-label-src').innerText = t.src;
+            document.getElementById('ui-btn-calc').innerText = t.btn;
+            document.getElementById('ui-res-g').innerText = t.r1;
+            document.getElementById('ui-res-t').innerText = t.r2;
+            document.getElementById('ui-res-p').innerText = t.r3;
+            document.getElementById('opt-tap').text = t.tap;
+            document.getElementById('opt-well').text = t.well;
+            document.getElementById('opt-pit').text = t.pit;
+            document.getElementById('n1').innerText = t.n1; document.getElementById('n2').innerText = t.n2;
+            document.getElementById('n3').innerText = t.n3; document.getElementById('n4').innerText = t.n4;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.id === 'l-'+l));
+            updateInfo();
+        }
+
+        function updateInfo() {
+            const h = waterData[document.getElementById('reg-select').value];
+            document.getElementById('h-status').innerText = h + " mg/l";
+        }
+
+        function calculateAll() {
+            const reg = document.getElementById('reg-select').value;
+            const h = waterData[reg];
+            const vol = parseFloat(document.getElementById('vol-input').value) || 0;
+            if(vol <= 0) return alert("Введите объем!");
+
+            const g = ((h - 2) * vol * 0.2).toFixed(1);
+            const t = Math.round(15 + vol * 1.2);
+            const p = (g * 0.85).toFixed(1);
+            const ph_b = (7.2 + (h/20)).toFixed(1);
+
+            document.getElementById('res-g').innerText = g;
+            document.getElementById('res-t').innerText = t;
+            document.getElementById('res-p').innerText = p;
+            document.getElementById('result-summary').style.display = 'block';
+
+            const session = { h: h, vol: vol, g: g, t: t, p: p, ph: ph_b, reg: reg.toUpperCase(), date: new Date().toLocaleDateString() };
+            localStorage.setItem('waterSession', JSON.stringify(session));
+            let hist = JSON.parse(localStorage.getItem('waterHistory')) || [];
+            hist.push(session);
+            localStorage.setItem('waterHistory', JSON.stringify(hist));
+        }
+        window.onload = () => setLang(localStorage.getItem('appLang') || 'ru');
+    </script>
+</body>
+</html>

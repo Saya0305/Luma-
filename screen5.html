@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoWater - История</title>
+    <link rel="stylesheet" href="style2.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2 id="ui-title">История</h2>
+            <div class="language-switch">
+                <button class="lang-btn" id="l-ru" onclick="setLang('ru')">RU</button>
+                <button class="lang-btn" id="l-kz" onclick="setLang('kz')">KZ</button>
+                <button class="lang-btn" id="l-en" onclick="setLang('en')">EN</button>
+            </div>
+        </div>
+
+        <div class="card" style="height:250px;"><canvas id="chart"></canvas></div>
+        <div id="list"></div>
+        
+        <button onclick="localStorage.clear(); location.reload();" class="nav-btn" style="background:#ff4d4d; margin-top:20px;" id="ui-clear">Очистить всё</button>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item">🏠<br><span>Инфо</span></a>
+        <a href="screen2.html" class="nav-item">💧<br><span>Ввод</span></a>
+        <a href="screen3.html" class="nav-item">📊<br><span>Анализ</span></a>
+        <a href="screen4.html" class="nav-item">🌱<br><span>Осадок</span></a>
+        <a href="screen5.html" class="nav-item active">📈<br><span>История</span></a>
+    </nav>
+
+    <script>
+        const langDict = {
+            ru: { title: "История", clear: "Очистить всё", empty: "Данных нет" },
+            kz: { title: "Тарих", clear: "Барлығын өшіру", empty: "Мәлімет жоқ" },
+            en: { title: "History", clear: "Clear All", empty: "No data" }
+        };
+
+        function setLang(l) {
+            localStorage.setItem('appLang', l);
+            const t = langDict[l];
+            document.getElementById('ui-title').innerText = t.title;
+            document.getElementById('ui-clear').innerText = t.clear;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.id === 'l-'+l));
+            renderData();
+        }
+
+        function renderData() {
+            const hist = JSON.parse(localStorage.getItem('waterHistory')) || [];
+            const list = document.getElementById('list');
+            const l = localStorage.getItem('appLang') || 'ru';
+
+            if(hist.length > 0) {
+                list.innerHTML = hist.slice().reverse().map(i => `
+                    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>${i.date} <b>${i.reg}</b></span>
+                        <b style="color:#00b4d8;">${i.h} mg/l</b>
+                    </div>
+                `).join('');
+                
+                // Перерисовываем график
+                const ctx = document.getElementById('chart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: hist.map(i => i.date),
+                        datasets: [{ label: 'mg/l', data: hist.map(i => i.h), borderColor: '#00b4d8', tension: 0.3 }]
+                    },
+                    options: { maintainAspectRatio: false }
+                });
+            } else {
+                list.innerHTML = `<p style="text-align:center;">${langDict[l].empty}</p>`;
+            }
+        }
+
+        window.onload = () => setLang(localStorage.getItem('appLang') || 'ru');
+    </script>
+</body>
+</html>
