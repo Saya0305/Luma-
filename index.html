@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoWater Assistant - Главная</title>
     <style>
-        /* Дополнительные стили для главной страницы */
+        /* BASE STYLES: Mobile-first approach with modern typography */
         body { background-color: #f4f9fc; margin: 0; padding-bottom: 100px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
+        /* HEADER: Using gradients to represent clean water theme */
         .welcome-header {
             background: linear-gradient(135deg, #00B4D8 0%, #0077B6 100%);
             color: white;
@@ -16,7 +16,7 @@
             border-radius: 0 0 40px 40px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-
+        /* LANGUAGE SELECTOR: UI components for accessibility */
         .language-picker {
             margin-top: 20px;
             display: flex;
@@ -36,7 +36,7 @@
         }
 
         .lang-btn.active { background: white; color: #0077B6; font-weight: bold; }
-
+        /* CONTENT CARDS: Modular design for better readability */
         .content-card {
             background: white;
             margin: 20px;
@@ -59,7 +59,7 @@
             font-size: 15px;
             text-align: justify;
         }
-
+        /* LEGEND: Visual guide for app navigation icons */
         .icon-legend { margin-top: 30px; }
 
         .legend-item {
@@ -87,7 +87,7 @@
 
         .legend-text b { display: block; color: #0077B6; font-size: 18px; margin-bottom: 5px; }
         .legend-text p { margin: 0; color: #555; font-size: 14px; line-height: 1.5; }
-
+         /* CALL TO ACTION (CTA): High-contrast button for user engagement */
         .start-action-btn {
             display: block;
             margin: 20px;
@@ -173,7 +173,11 @@
 
     <a href="screen2.html" class="start-action-btn" id="txt-start-btn">ПОНЯТНО, НАЧАТЬ</a>
 
-    <script>
+    <script> 
+        /**
+         * LOCALIZATION DATA: 
+         * Supporting RU, KZ, and EN for broad accessibility in Kazakhstan.
+         */
         const localization = {
             ru: {
                 title: "EcoWater Assistant",
@@ -215,11 +219,14 @@
                 start: "I GOT IT, START"
             }
         };
-
+        /**
+         * LANGUAGE HANDLER:
+         * Dynamically updates DOM elements and persists selection using LocalStorage.
+         */
         function changeAppLang(lang) {
-            localStorage.setItem('userSelectedLang', lang);
+            localStorage.setItem('userSelectedLang', lang); // Data persistence
             const data = localization[lang];
-            
+            // DOM manipulation for text updates
             document.getElementById('txt-title').innerText = data.title;
             document.getElementById('txt-subtitle').innerText = data.subtitle;
             document.getElementById('txt-about-title').innerText = data.aboutTitle;
@@ -231,14 +238,14 @@
             document.getElementById('txt-i4-h').innerText = data.i4h; document.getElementById('txt-i4-p').innerText = data.i4p;
             document.getElementById('txt-i5-h').innerText = data.i5h; document.getElementById('txt-i5-p').innerText = data.i5p;
             document.getElementById('txt-start-btn').innerText = data.start;
-
-            // Стилизация кнопок языков
+            
+            // Visual feedback: toggle 'active' class for buttons
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             if(lang === 'ru') document.getElementById('btn-ru').classList.add('active');
             if(lang === 'kz') document.getElementById('b-kz').classList.add('active');
             if(lang === 'en') document.getElementById('b-en').classList.add('active');
         }
-
+         // Initialize language on page load
         window.onload = () => {
             const saved = localStorage.getItem('userSelectedLang') || 'ru';
             changeAppLang(saved);
