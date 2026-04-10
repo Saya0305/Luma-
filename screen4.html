@@ -46,7 +46,12 @@
         <a href="screen5.html" class="nav-item">📈<br><span>История</span></a>
     </nav>
 
-    <script>
+    <script> 
+        /**
+         * KNOWLEDGE BASE: 
+         * Multilingual database containing eco-friendly tips. 
+         * Demonstrates data structuring for complex content management.
+         */
         const tipsData = {
             ru: { 
                 title:"Советы", stock:"Ваш запас:", h:"Быт", g:"Сад", a:"Искусство", b:"Ремонт",
@@ -70,33 +75,46 @@
                 build: ["Crack filling", "Tile grout", "Cement additive", "Garage whitening", "Beam protection", "Rust removal", "Homemade putty", "Plaster help", "Wall primer", "Eco-paint"]
             }
         };
-
+        // GLOBAL STATE: Tracks which category is currently being viewed
         let currentCat = null;
-
+        /**
+         * FUNCTION: setLang
+         * Updates all labels and handles persistent storage of language settings.
+         * Syncs the knowledge base with the selected locale.
+         */
         function setLang(l) {
             localStorage.setItem('appLang', l);
-            const t = tipsData[l];
+            const t = tipsData[l]; 
+            // UI Element Updates
             document.getElementById('ui-title').innerText = t.title;
             document.getElementById('ui-stock').innerText = t.stock;
             document.getElementById('c1').innerText = t.h; document.getElementById('c2').innerText = t.g;
             document.getElementById('c3').innerText = t.a; document.getElementById('c4').innerText = t.b;
-            
+            // Visual indication for the active language button
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.id === 'l-'+l));
-            
+            // DATA INTEGRATION: Fetching saved residue value from LocalStorage
             const s = JSON.parse(localStorage.getItem('waterSession'));
             if(s) document.getElementById('p-val').innerText = s.p;
-            
+            // Refresh content if a category is already open
             if(currentCat) show(currentCat); // Обновляем открытые советы при смене языка
         }
-
+        /**
+         * FUNCTION: show(cat)
+         * Content Rendering Engine: Dynamically generates tip lists using .map() 
+         * to avoid manual HTML hardcoding and ensure easy updates.
+         */
         function show(cat) {
             currentCat = cat;
             const l = localStorage.getItem('appLang') || 'ru';
-            const t = tipsData[l];
+            const t = tipsData[l]; 
+            // Setting the header for the advice card
             document.getElementById('adv-h').innerText = t[cat === 'home'?'h':cat === 'garden'?'g':cat === 'art'?'a':'b'];
+            // LIST RENDERING: Transforming array data into HTML bullets
             document.getElementById('adv-l').innerHTML = t[cat].map(i => `• ${i}<br>`).join('');
+            // Displaying the hidden results card
             document.getElementById('adv-disp').style.display = 'block';
-        }
+        } 
+        // INITIALIZATION: Runs on page load to restore user preferences
         window.onload = () => setLang(localStorage.getItem('appLang') || 'ru');
     </script>
 </body>
