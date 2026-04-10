@@ -33,27 +33,40 @@
     </nav>
 
     <script>
+        /** * DICTIONARY: 
+         * Localized strings specifically for the History and Analytics view.
+         */
         const langDict = {
             ru: { title: "История", clear: "Очистить всё", empty: "Данных нет" },
             kz: { title: "Тарих", clear: "Барлығын өшіру", empty: "Мәлімет жоқ" },
             en: { title: "History", clear: "Clear All", empty: "No data" }
         };
-
+        /**
+         * FUNCTION: setLang
+         * Syncs the UI language and triggers a re-render of the historical data list.
+         */
         function setLang(l) {
             localStorage.setItem('appLang', l);
             const t = langDict[l];
             document.getElementById('ui-title').innerText = t.title;
             document.getElementById('ui-clear').innerText = t.clear;
+            // UI Feedback: Highlights the selected language button
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.id === 'l-'+l));
             renderData();
         }
-
+         /**
+         * DATA RENDERING ENGINE: 
+         * Retrieves the 'waterHistory' array from LocalStorage, 
+         * parses the JSON, and builds both the visual chart and the text list.
+         */
         function renderData() {
             const hist = JSON.parse(localStorage.getItem('waterHistory')) || [];
             const list = document.getElementById('list');
             const l = localStorage.getItem('appLang') || 'ru';
-
-            if(hist.length > 0) {
+            // Check if history exists to prevent rendering empty charts
+            if(hist.length > 0) { 
+                // DOM MANIPULATION: 
+                // Creating a list of cards using template literals and .map()
                 list.innerHTML = hist.slice().reverse().map(i => `
                     <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
                         <span>${i.date} <b>${i.reg}</b></span>
@@ -61,21 +74,26 @@
                     </div>
                 `).join('');
                 
-                // Перерисовываем график
+               /**
+                 * CHART INITIALIZATION:
+                 * Configures the Chart.js instance with responsive settings, 
+                 * custom colors, and data points from the user's history.
+                 */
                 const ctx = document.getElementById('chart').getContext('2d');
                 new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: hist.map(i => i.date),
-                        datasets: [{ label: 'mg/l', data: hist.map(i => i.h), borderColor: '#00b4d8', tension: 0.3 }]
+                        datasets: [{ label: 'mg/l', data: hist.map(i => i.h), borderColor: '#00b4d8', tension: 0.3 }] // Smooth lines for better visual appeal
                     },
-                    options: { maintainAspectRatio: false }
+                    options: { maintainAspectRatio: false } // Ensures the chart fits the card container
                 });
-            } else {
+            } else { 
+                // EMPTY STATE UX: Informing the user when no data has been recorded yet.
                 list.innerHTML = `<p style="text-align:center;">${langDict[l].empty}</p>`;
             }
         }
-
+        // ENTRY POINT: Initialize the page based on stored preferences
         window.onload = () => setLang(localStorage.getItem('appLang') || 'ru');
     </script>
 </body>
