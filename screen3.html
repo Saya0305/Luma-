@@ -44,13 +44,20 @@
         <a href="screen5.html" class="nav-item">📈<br><span>История</span></a>
     </nav>
 
-    <script>
+    <script> 
+        /**
+         * UI STRINGS:
+         * Comprehensive dictionary for multi-language support on the results page.
+         */
         const texts = {
             ru: { title:"Анализ", h:"Жесткость", ph:"Уровень pH", bef:"До", aft:"После", ok:"Вода чистая", bad:"Высокая жесткость" },
             kz: { title:"Талдау", h:"Қаттылық", ph:"pH деңгейі", bef:"Дейін", aft:"Кейін", ok:"Су таза", bad:"Қаттылық жоғары" },
             en: { title:"Analysis", h:"Hardness", ph:"pH Level", bef:"Before", aft:"After", ok:"Clean Water", bad:"High Hardness" }
         };
-
+        /**
+         * FUNCTION: setLang
+         * Handles both UI translation and data rendering.
+         */
         function setLang(l) {
             localStorage.setItem('appLang', l);
             const t = texts[l];
@@ -58,21 +65,29 @@
             document.getElementById('ui-h').innerText = t.h;
             document.getElementById('ui-ph').innerText = t.ph;
             
-            // Перевод "До" и "После"
+           // TRANSLATING MULTIPLE ELEMENTS:
+            // Uses querySelectorAll to update all "Before/After" labels at once.
             document.querySelectorAll('.ui-before').forEach(el => el.innerText = t.bef);
             document.querySelectorAll('.ui-after').forEach(el => el.innerText = t.aft);
-            
+            // Update button active states
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.id === 'l-'+l));
-
+            /**
+             * DATA HYDRATION:
+             * Retrieves the most recent calculation session from LocalStorage.
+             * This demonstrates "Inter-page data communication".
+             */
             const s = JSON.parse(localStorage.getItem('waterSession'));
             if(s) {
                 document.getElementById('h-b').innerText = s.h;
-                document.getElementById('ph-b').innerText = s.ph;
+                document.getElementById('ph-b').innerText = s.ph; 
+                // CONDITIONAL LOGIC:
+                // Evaluates water quality to provide visual feedback to the user.
                 const box = document.getElementById('status-box');
-                box.style.background = s.h > 7 ? "#ff4d4d" : "#80ed99";
+                box.style.background = s.h > 7 ? "#ff4d4d" : "#80ed99"; // Visual Alert System
                 box.innerText = s.h > 7 ? t.bad : t.ok;
             }
-        }
+        } 
+        // Initialize view based on stored preferences
         window.onload = () => setLang(localStorage.getItem('appLang') || 'ru');
     </script>
 </body>
