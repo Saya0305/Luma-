@@ -1,23 +1,29 @@
 /* ================= ФИНАЛЬНЫЙ СТИЛЬ WATERFIX ================= */
-* {
+/* GLOBAL RESET: Removes default browser margins and ensures consistent box-sizing 
+   across all elements for predictable layout behavior. */
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, sans-serif;
 }
-
+/* BASE STYLING:
+   Implementing a dynamic gradient background to enhance visual appeal.
+   The 'fixed' attachment keeps the background stable during scrolling. */
 body {
     min-height: 100vh;
     background: linear-gradient(135deg, #00b4d8, #90e0ef, #80ed99);
     background-attachment: fixed;
     display: flex;
-    justify-content: center; /* Центрирует контейнер по горизонтали на ПК */
-    align-items: center;    /* Центрирует контейнер по вертикали на ПК */
-    padding: 20px 20px 120px; /* Отступ снизу для навигации */
+    justify-content: center; /* Horizontal centering for Desktop view */
+    align-items: center;  /* Vertical centering for Desktop view */
+    padding: 20px 20px 120px; /* Extra bottom padding to prevent Nav overlap */
     color: #023047;
 }
 
-/* ГЛАВНЫЙ КОНТЕЙНЕР - ТЕПЕРЬ ОН БУДЕТ ПОСЕРЕДИНЕ */
+/* MAIN CONTAINER ARCHITECTURE:
+   Simulates a mobile app interface within a desktop browser.
+   Includes a subtle fadeIn animation for a polished user experience. */
 .container {
     width: 100%;
     max-width: 500px; /* Максимальная ширина, как у телефона */
@@ -30,13 +36,15 @@ body {
     flex-direction: column;
     animation: fadeIn 0.8s ease-out;
 }
-
+/* ANIMATION KEYFRAMES:
+   Smooth entry effect that slides the content upward while fading in. */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ШАПКА И КНОПКИ ЯЗЫКОВ */
+/* UI HEADER & LANGUAGE CONTROLS:
+   Uses Flexbox for space-between positioning of title and toggles. */
 .header {
     display: flex;
     justify-content: space-between;
@@ -48,7 +56,8 @@ body {
     display: flex;
     gap: 8px;
 }
-
+/* INTERACTIVE BUTTONS:
+   Implements transition effects for smooth color changes on hover/active states. */
 .lang-btn {
     padding: 8px 12px;
     border: 1px solid #00b4d8;
@@ -66,7 +75,9 @@ body {
     color: white;
 }
 
-/* КАРТОЧКИ (для истории и советов) */
+/* COMPONENT CARDS:
+   Modular card design used for data history, tips, and results.
+   Features a 3D-lift effect (transform) on hover for better interactivity. */
 .card, .history-card, .cat-card, .chart-card {
     background: white;
     padding: 20px;
@@ -82,8 +93,8 @@ body {
     box-shadow: 0 10px 20px rgba(0, 119, 182, 0.15);
     border-color: #00b4d8;
 }
-
-/* СПЕЦИАЛЬНЫЕ БЛОКИ ДЛЯ 4 СТРАНИЦЫ */
+/* GRID SYSTEM: 
+   Optimized for 4th page (Tips) to display categories in a 2-column layout. */
 .category-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -91,8 +102,9 @@ body {
 }
 
 .cat-icon { font-size: 24px; margin-bottom: 5px; display: block; }
-
-/* НИЖНЯЯ НАВИГАЦИЯ (NavBar) */
+/* FIXED NAVIGATION BAR:
+   Maintains accessibility at the bottom of the screen (Mobile UX standard).
+   Uses 'z-index' to ensure it remains above all other content. */
 .nav-bar {
     position: fixed;
     bottom: 20px;
@@ -123,7 +135,7 @@ body {
     transform: translateY(-3px);
 }
 
-/* КНОПКА ОЧИСТКИ */
+/* DANGER ACTION STYLING: Red color coding for data erasure. */
 .btn-clear {
     width: 100%;
     padding: 12px;
@@ -136,7 +148,7 @@ body {
     cursor: pointer;
     transition: 0.3s;
 }
-/* Отступ для селекторов и инпутов, чтобы не прилипали */
+/* Indentation for selectors and inputs so they don't stick */
 select, input {
     width: 100%;
     padding: 12px;
@@ -147,7 +159,8 @@ select, input {
     display: block; /* Гарантирует, что элемент будет на новой строке */
 }
 
-/* Красивая кнопка Рассчитать */
+/* CALL-TO-ACTION (CTA) BUTTON:
+   Prominent styling with a linear gradient to guide the user towards primary actions. */
 .nav-btn {
     width: 100%;
     background: linear-gradient(135.44deg, #00B4D8 0%, #0077B6 100%);
@@ -168,7 +181,7 @@ select, input {
 
 .btn-clear:hover { background: #e63946; }
 
-/* ЧАТ BOTPRESS */
+/*BOTPRESS CHAT */
 #chat-window {
     border-radius: 20px;
     overflow: hidden;
@@ -189,9 +202,9 @@ select, input {
 }
 
 .nav-item {
-    flex: 1; /* Равномерно распределяет все 5 кнопок */
+    flex: 1; /* Evenly distributes all 5 buttons */
     text-align: center;
-    font-size: 10px; /* Немного уменьшаем текст, чтобы влезло в ряд */
+    font-size: 10px; /* Slightly reduce the text so that it fits in a row */
     text-decoration: none;
     color: #777;
 }
