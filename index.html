@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoWater Assistant - Главная</title>
+    <title>EcoWater Assistant - Главная</title><link rel="stylesheet" href="style2.css">
     <style>
-        /* BASE STYLES: Mobile-first approach with modern typography */
-        body { background-color: #f4f9fc; margin: 0; padding-bottom: 100px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        /* HEADER: Using gradients to represent clean water theme */
+        /* Дополнительные стили для главной страницы */
+        body { background-color: #f4f9fc; margin: 0; padding-bottom: 120px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
         .welcome-header {
             background: linear-gradient(135deg, #00B4D8 0%, #0077B6 100%);
             color: white;
@@ -16,7 +16,7 @@
             border-radius: 0 0 40px 40px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        /* LANGUAGE SELECTOR: UI components for accessibility */
+
         .language-picker {
             margin-top: 20px;
             display: flex;
@@ -36,7 +36,7 @@
         }
 
         .lang-btn.active { background: white; color: #0077B6; font-weight: bold; }
-        /* CONTENT CARDS: Modular design for better readability */
+
         .content-card {
             background: white;
             margin: 20px;
@@ -59,7 +59,7 @@
             font-size: 15px;
             text-align: justify;
         }
-        /* LEGEND: Visual guide for app navigation icons */
+
         .icon-legend { margin-top: 30px; }
 
         .legend-item {
@@ -87,7 +87,7 @@
 
         .legend-text b { display: block; color: #0077B6; font-size: 18px; margin-bottom: 5px; }
         .legend-text p { margin: 0; color: #555; font-size: 14px; line-height: 1.5; }
-         /* CALL TO ACTION (CTA): High-contrast button for user engagement */
+
         .start-action-btn {
             display: block;
             margin: 20px;
@@ -120,7 +120,7 @@
     </div>
 
     <div class="content-card">
-        <h3 id="txt-about-title" class="section-title">О нашем проекте</h3>
+        <h3 id="txt-about-title" class="section-title">О нашем проекте!</h3>
         <p id="txt-about-p" class="main-description">
             </p>
     </div>
@@ -133,7 +133,7 @@
                 <div class="legend-icon">🏠</div>
                 <div class="legend-text">
                     <b id="txt-i1-h">Главная</b>
-                    <p id="txt-i1-p">Вы находитесь здесь. На этой странице мы объясняем цели проекта, его важность для экологии и как пользоваться каждой функцией.</p>
+                    <p id="txt-i1-p">Вы находитесь здесь. На этой странице мы объясняем цели проекта и расшифровываем кнопки.</p>
                 </div>
             </div>
 
@@ -141,7 +141,7 @@
                 <div class="legend-icon">💧</div>
                 <div class="legend-text">
                     <b id="txt-i2-h">Ввод данных</b>
-                    <p id="txt-i2-p">Первый шаг к чистой воде. Укажите свой город, источник воды и её объем, чтобы алгоритм подготовил расчеты специально для вас.</p>
+                    <p id="txt-i2-p">Укажите свой город и параметры воды для начала работы алгоритма.</p>
                 </div>
             </div>
 
@@ -149,7 +149,15 @@
                 <div class="legend-icon">📊</div>
                 <div class="legend-text">
                     <b id="txt-i3-h">Анализ и расчет</b>
-                    <p id="txt-i3-p">Сердце приложения. Здесь вы узнаете уровень жесткости вашей воды и получите точный расчет реагента для её эффективного смягчения.</p>
+                    <p id="txt-i3-p">Узнайте уровень жесткости и точный вес реагента для смягчения вашей воды.</p>
+                </div>
+            </div>
+
+            <div class="legend-item">
+                <div class="legend-icon">🎬</div>
+                <div class="legend-text">
+                    <b id="txt-i-video-h">Видео-инструкция</b>
+                    <p id="txt-i-video-p">Наглядное руководство по созданию очищающей таблетки своими руками на трех языках.</p>
                 </div>
             </div>
 
@@ -157,7 +165,7 @@
                 <div class="legend-icon">🌱</div>
                 <div class="legend-text">
                     <b id="txt-i4-h">Эко-советы (Zero Waste)</b>
-                    <p id="txt-i4-p">Самый ценный раздел. Мы учим не выбрасывать белый осадок после очистки, а использовать его как ресурс в доме, саду или искусстве.</p>
+                    <p id="txt-i4-p">40 способов использовать белый осадок с пользой для дома и окружающей среды.</p>
                 </div>
             </div>
 
@@ -165,7 +173,7 @@
                 <div class="legend-icon">📈</div>
                 <div class="legend-text">
                     <b id="txt-i5-h">История и тренды</b>
-                    <p id="txt-i5-p">Ваш личный журнал водных измерений. Следите за тем, как меняется качество воды в вашем регионе с помощью наглядных графиков.</p>
+                    <p id="txt-i5-p">Ваш личный журнал водных измерений и графики изменения качества воды.</p>
                 </div>
             </div>
         </div>
@@ -173,11 +181,7 @@
 
     <a href="screen2.html" class="start-action-btn" id="txt-start-btn">ПОНЯТНО, НАЧАТЬ</a>
 
-    <script> 
-        /**
-         * LOCALIZATION DATA: 
-         * Supporting RU, KZ, and EN for broad accessibility in Kazakhstan.
-         */
+    <script>
         const localization = {
             ru: {
                 title: "EcoWater Assistant",
@@ -188,6 +192,7 @@
                 i1h: "Главная", i1p: "Вы находитесь здесь. На этой странице мы объясняем цели проекта и расшифровываем кнопки.",
                 i2h: "Ввод данных", i2p: "Укажите свой город и параметры воды для начала работы алгоритма.",
                 i3h: "Анализ и расчет", i3p: "Узнайте уровень жесткости и точный вес реагента для смягчения вашей воды.",
+                ivh: "Видео-инструкция", ivp: "Наглядное руководство по созданию очищающей таблетки своими руками на трех языках.",
                 i4h: "Эко-советы (Zero Waste)", i4p: "40 способов использовать белый осадок с пользой для дома и окружающей среды.",
                 i5h: "История и тренды", i5p: "Дневник ваших измерений и графики изменения качества воды в динамике.",
                 start: "ПОНЯТНО, НАЧАТЬ"
@@ -201,6 +206,7 @@
                 i1h: "Басты бет", i1p: "Сіз осындасыз. Бұл бетте біз жобаның мақсаты мен батырмалардың мәнін түсіндіреміз.",
                 i2h: "Мәлімет енгізу", i2p: "Алгоритм жұмысын бастау үшін қала мен су параметрлерін көрсетіңіз.",
                 i3h: "Талдау мен есептеу", i3p: "Судың қаттылық деңгейін және оны жұмсартуға қажетті реагент салмағын біліңіз.",
+                ivh: "Видео-нұсқаулық", ivp: "Тазарту таблеткасын өз қолыңызбен жасау бойынша үш тілдегі көрнекі нұсқаулық.",
                 i4h: "Эко-кеңестер (Zero Waste)", i4p: "Ақ тұнбаны үй мен қоршаған ортаға пайдалы етіп қолданудың 40 жолы.",
                 i5h: "Тарих пен трендтер", i5p: "Өлшеулер күнделігі және су сапасының өзгеру динамикасының графиктері.",
                 start: "ТҮСІНІКТІ, БАСТАУ"
@@ -214,38 +220,41 @@
                 i1h: "Home", i1p: "You are here. This page explains our goals and the meaning of each function.",
                 i2h: "Data Input", i2p: "Select your city and water parameters to start the algorithm.",
                 i3h: "Analysis", i3p: "Discover the hardness level and get the precise reagent dose for softening.",
+                ivh: "Video Instruction", ivp: "A visual guide to creating your own purification tablet in three languages.",
                 i4h: "Eco-tips (Zero Waste)", i4p: "40 ways to reuse white sediment for your home and environment.",
                 i5h: "History & Trends", i5p: "Your measurement log and charts showing water quality dynamics over time.",
                 start: "I GOT IT, START"
             }
         };
-        /**
-         * LANGUAGE HANDLER:
-         * Dynamically updates DOM elements and persists selection using LocalStorage.
-         */
+
         function changeAppLang(lang) {
-            localStorage.setItem('userSelectedLang', lang); // Data persistence
+            localStorage.setItem('userSelectedLang', lang);
             const data = localization[lang];
-            // DOM manipulation for text updates
+            
             document.getElementById('txt-title').innerText = data.title;
             document.getElementById('txt-subtitle').innerText = data.subtitle;
             document.getElementById('txt-about-title').innerText = data.aboutTitle;
             document.getElementById('txt-about-p').innerHTML = data.aboutP;
             document.getElementById('txt-guide-title').innerText = data.guideTitle;
+            
             document.getElementById('txt-i1-h').innerText = data.i1h; document.getElementById('txt-i1-p').innerText = data.i1p;
             document.getElementById('txt-i2-h').innerText = data.i2h; document.getElementById('txt-i2-p').innerText = data.i2p;
             document.getElementById('txt-i3-h').innerText = data.i3h; document.getElementById('txt-i3-p').innerText = data.i3p;
+            
+            // Новое видео-описание
+            document.getElementById('txt-i-video-h').innerText = data.ivh; 
+            document.getElementById('txt-i-video-p').innerText = data.ivp;
+            
             document.getElementById('txt-i4-h').innerText = data.i4h; document.getElementById('txt-i4-p').innerText = data.i4p;
             document.getElementById('txt-i5-h').innerText = data.i5h; document.getElementById('txt-i5-p').innerText = data.i5p;
             document.getElementById('txt-start-btn').innerText = data.start;
-            
-            // Visual feedback: toggle 'active' class for buttons
+
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             if(lang === 'ru') document.getElementById('btn-ru').classList.add('active');
             if(lang === 'kz') document.getElementById('b-kz').classList.add('active');
             if(lang === 'en') document.getElementById('b-en').classList.add('active');
         }
-         // Initialize language on page load
+
         window.onload = () => {
             const saved = localStorage.getItem('userSelectedLang') || 'ru';
             changeAppLang(saved);
