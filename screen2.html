@@ -21,7 +21,6 @@
             <h2 id="ui-page-title">Параметры</h2>
             <label id="ui-label-reg">Регион:</label>
             <select id="reg-select" onchange="updateInfo()"> 
-                //list of regions
                 <option value="astana">Astana</option>
                 <option value="almaty">Almaty</option>
                 <option value="shymkent">Shymkent</option>
@@ -63,21 +62,22 @@
         </div>
     </div>
 
-     <nav class="nav-bar">
-    <a href="index.html" class="nav-item">🏠<br><span>Инфо</span></a>
-    <a href="screen2.html" class="nav-item">💧<br><span id="n1">Ввод</span></a>
-    <a href="screen3.html" class="nav-item">📊<br><span id="n2">Анализ</span></a>
-    <a href="screen6.html" class="nav-item">🎬<br><span id="n-inst">Видео</span></a>
-    <a href="screen4.html" class="nav-item">🌱<br><span id="n3">Осадок</span></a>
-    <a href="screen5.html" class="nav-item">📈<br><span id="n4">История</span></a>
-</nav>
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item">🏠<br><span>Инфо</span></a>
+        <a href="screen2.html" class="nav-item active">💧<br><span id="n1">Ввод</span></a>
+        <a href="screen3.html" class="nav-item">📊<br><span id="n2">Анализ</span></a>
+        <a href="instruction.html" class="nav-item">🎬<br><span id="n-inst">Видео</span></a>
+        <a href="screen4.html" class="nav-item">🌱<br><span id="n3">Осадок</span></a>
+        <a href="screen5.html" class="nav-item">📈<br><span id="n4">История</span></a>
+    </nav>
+
     <script> 
         /**
          * DATA REPOSITORY: 
          * Regional water hardness levels based on geological data for Kazakhstan.
-         * Acts as a static "offline database".
          */
         const waterData = { astana:7, almaty:4.2, shymkent:8.5, akmola:6.5, aktobe:8.2, atyrau:10.5, vko:4, zhambyl:7.2, zko:9, karaganda:7.5, kostanay:8, kyzylorda:9.5, mangistau:11.5, pavlodar:6, sko:7.8, turkestan:8.8, ulytau:8.2 };
+
         /** * LOCALIZATION DICTIONARY: 
          * Storing UI text fragments for dynamic language switching. 
          */
@@ -86,17 +86,15 @@
             kz: { page:"Параметрлер", reg:"Аймақ:", vol:"Көлемі (л):", src:"Көзі:", btn:"Есептеу", r1:"Реагент:", r2:"Уақыт:", r3:"Тұнба:", n1:"Енгізу", n2:"Талдау", n3:"Тұнба", n4:"Тарих", tap:"Құбыр", well:"Ұңғыма", pit:"Құдық" },
             en: { page:"Parameters", reg:"Region:", vol:"Volume (L):", src:"Source:", btn:"Calculate", r1:"Reagent:", r2:"Time:", r3:"Residue:", n1:"Input", n2:"Analysis", n3:"Residue", n4:"History", tap:"Tap", well:"Borehole", pit:"Well" }
         }; 
+
         /**
          * FUNCTION: setLang
          * Updates all text nodes based on chosen language. 
-         * Persists selection to LocalStorage for a consistent user experience.
          */
-
         function setLang(l) {
             localStorage.setItem('appLang', l);
             const t = translations[l]; 
             
-            // Updating UI text content
             document.getElementById('ui-page-title').innerText = t.page;
             document.getElementById('ui-label-reg').innerText = t.reg;
             document.getElementById('ui-label-vol').innerText = t.vol;
@@ -108,52 +106,50 @@
             document.getElementById('opt-tap').text = t.tap;
             document.getElementById('opt-well').text = t.well;
             document.getElementById('opt-pit').text = t.pit;
-            document.getElementById('n1').innerText = t.n1; document.getElementById('n2').innerText = t.n2;
-            document.getElementById('n3').innerText = t.n3; document.getElementById('n4').innerText = t.n4;
-            // Visual feedback: highlights the active language button
+            document.getElementById('n1').innerText = t.n1; 
+            document.getElementById('n2').innerText = t.n2;
+            document.getElementById('n3').innerText = t.n3; 
+            document.getElementById('n4').innerText = t.n4;
+
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.id === 'l-'+l));
             updateInfo();
         }
+
         // FUNCTION: Displays specific hardness of the selected region.
         function updateInfo() {
             const h = waterData[document.getElementById('reg-select').value];
             document.getElementById('h-status').innerText = h + " mg/l";
         } 
+
         /**
          * CORE LOGIC: calculateAll
          * Main algorithm for water softening calculations.
-         * Processes user input and regional data using technical formulas.
          */
         function calculateAll() {
             const reg = document.getElementById('reg-select').value;
             const h = waterData[reg];
             const vol = parseFloat(document.getElementById('vol-input').value) || 0; 
-            // Simple data validation
-            if(vol <= 0) return alert("Введите объем!");
-            // TECHNICAL FORMULAS:
-            const g = ((h - 2) * vol * 0.2).toFixed(1); // Reagent dose
-            const t = Math.round(15 + vol * 1.2);       // Est. filtration time
-            const p = (g * 0.85).toFixed(1);            // Est. residue volume
-            const ph_b = (7.2 + (h/20)).toFixed(1);     // Est. pH balance
 
-            // Updating the UI with results
+            if(vol <= 0) return alert("Введите объем!");
+
+            const g = ((h - 2) * vol * 0.2).toFixed(1); 
+            const t = Math.round(15 + vol * 1.2);       
+            const p = (g * 0.85).toFixed(1);            
+            const ph_b = (7.2 + (h/20)).toFixed(1);     
+
             document.getElementById('res-g').innerText = g;
             document.getElementById('res-t').innerText = t;
             document.getElementById('res-p').innerText = p;
             document.getElementById('result-summary').style.display = 'block';
-            /**
-             * PERSISTENCE LAYER: 
-             * Saving session data for the "History & Trends" and "Analysis" pages.
-             * We use LocalStorage to ensure data is kept even if the browser closes.
-             */
+
             const session = { h: h, vol: vol, g: g, t: t, p: p, ph: ph_b, reg: reg.toUpperCase(), date: new Date().toLocaleDateString() };
             localStorage.setItem('waterSession', JSON.stringify(session));
-            // Appending current session to global history array
+
             let hist = JSON.parse(localStorage.getItem('waterHistory')) || [];
             hist.push(session);
             localStorage.setItem('waterHistory', JSON.stringify(hist));
         } 
-        // INITIALIZATION: Syncs with user's previous language choice on page load.
+
         window.onload = () => setLang(localStorage.getItem('appLang') || 'ru');
     </script>
 </body>
