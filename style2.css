@@ -1,4 +1,3 @@
-/* ================= ФИНАЛЬНЫЙ СТИЛЬ WATERFIX ================= */
 /* GLOBAL RESET: Removes default browser margins and ensures consistent box-sizing 
    across all elements for predictable layout behavior. */
 *{
@@ -105,36 +104,51 @@ body {
 /* FIXED NAVIGATION BAR:
    Maintains accessibility at the bottom of the screen (Mobile UX standard).
    Uses 'z-index' to ensure it remains above all other content. */
+/* --- NAVIGATION BAR ADAPTATION (6 ITEMS) --- */
 .nav-bar {
     position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 450px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     background: white;
     display: flex;
-    justify-content: space-around;
-    padding: 12px;
-    border-radius: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    justify-content: space-between; /* Evenly distributes items */
+    align-items: center;
+    padding: 8px 4px; /* Reduced padding for mobile screens */
+    border-top: 1px solid #eee;
     z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
 }
 
 .nav-item {
+    flex: 1; /* Each item takes equal width */
     text-decoration: none;
     color: #adb5bd;
-    font-size: 11px;
+    font-size: 9px; /* Smaller font size to fit 6 items */
     text-align: center;
-    transition: 0.3s;
+    min-width: 0; /* Prevents items from overflowing */
+    word-wrap: break-word; /* Allows text to wrap if it's too long */
+}
+
+.nav-item span {
+    display: block;
+    margin-top: 2px;
+    white-space: nowrap; /* Prevents text from breaking into two lines */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adds "..." if text is absolutely too long */
 }
 
 .nav-item.active {
     color: #00b4d8;
     font-weight: bold;
-    transform: translateY(-3px);
 }
 
+/* Responsive adjustment for very small screens */
+@media (max-width: 360px) {
+    .nav-item {
+        font-size: 8px; /* Even smaller font for tiny devices */
+    }
+}
 /* DANGER ACTION STYLING: Red color coding for data erasure. */
 .btn-clear {
     width: 100%;
