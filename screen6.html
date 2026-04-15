@@ -1,108 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Guide - EcoWater Assistant</title>
+    <title>Video Guide - EcoWater</title>
     <link rel="stylesheet" href="style2.css">
     <style>
-        /* --- UI LAYOUT STYLING --- */
-        body { 
-            background-color: #f4f9fc; 
-            margin: 0; 
-            padding-bottom: 100px; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        /*Specific styles only for this page that do not conflict with style2.css */
+        .video-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-top: 10px;
         }
 
-        /* Header with a modern gradient background */
-        .header { 
-            text-align: center; 
-            padding: 30px 20px; 
-            background: linear-gradient(135deg, #00B4D8 0%, #0077B6 100%); 
-            color: white; 
-            border-radius: 0 0 30px 30px; 
-            margin-bottom: 20px; 
-        }
-
-        /* Container to keep content centered and responsive */
-        .video-container { 
-            padding: 15px; 
-            max-width: 500px; 
-            margin: 0 auto; 
-        }
-
-        /* Card component for the video preview */
-        .video-card { 
-            background: white; 
-            padding: 15px; 
-            border-radius: 25px; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1); 
-            text-align: center; 
-        }
-
-        /* --- VIDEO INTERFACE STYLING --- */
-        /* Wrapper to create a professional-looking "player" effect */
         .video-link-wrapper {
             position: relative;
             display: block;
-            width: 100%;
-            border-radius: 20px;
+            border-radius: 15px;
             overflow: hidden;
-            border: 3px solid #00B4D8;
-            transition: transform 0.2s ease-in-out;
+            border: 2px solid #00b4d8;
+            margin-bottom: 15px;
         }
 
-        /* Visual feedback on click (shrink effect) */
-        .video-link-wrapper:active { 
-            transform: scale(0.98); 
-        }
-        
-        /* Auto-responsive thumbnail image */
-        .preview-img { 
-            width: 100%; 
-            display: block; 
-            border-radius: 15px; 
-        }
-        
-        /* Custom Play Button Overlay */
         .play-overlay {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0, 180, 216, 0.9);
             color: white;
-            width: 70px; height: 70px;
+            width: 60px; height: 60px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            font-size: 24px;
         }
 
-        /* Text description typography */
-        .video-desc { 
-            font-size: 15px; 
-            color: #555; 
-            padding: 20px 10px; 
-            line-height: 1.6; 
+        .preview-img {
+            width: 100%;
+            display: block;
+        }
+
+        .header-box {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header-box h1 {
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+
+        .header-box p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .nav-bar {
+            z-index: 10000 !important;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <div class="header-box">
+            <h1 id="page-title">Video Instruction</h1>
+            <p id="page-subtitle">Watch the tutorial</p>
+            
+            <div class="language-switch" style="justify-content: center;">
+                <button class="lang-btn" id="l-ru" onclick="setLanguage('ru')">RU</button>
+                <button class="lang-btn" id="l-kz" onclick="setLanguage('kz')">KZ</button>
+                <button class="lang-btn" id="l-en" onclick="setLanguage('en')">EN</button>
+            </div>
+        </div>
 
-    <div class="header">
-        <h1 id="page-title">Video Instruction</h1>
-        <p id="page-subtitle">Watch the tutorial</p>
-    </div>
-
-    <div class="video-container">
         <div class="video-card">
             <a id="v-link" href="#" target="_blank" class="video-link-wrapper">
                 <img id="v-img" src="" alt="Video Preview" class="preview-img">
                 <div class="play-overlay">▶</div>
             </a>
-            <p id="video-text" class="video-desc"></p>
+            <p id="video-text" class="video-desc" style="color: #555; line-height: 1.4;"></p>
         </div>
     </div>
 
@@ -110,66 +91,55 @@
         <a href="index.html" class="nav-item">🏠<br><span>Инфо</span></a>
         <a href="screen2.html" class="nav-item">💧<br><span>Ввод</span></a>
         <a href="screen3.html" class="nav-item">📊<br><span>Анализ</span></a>
-        <a href="instruction.html" class="nav-item active">🎬<br><span>Видео</span></a>
+        <a href="screen6.html" class="nav-item active">🎬<br><span>Видео</span></a>
         <a href="screen4.html" class="nav-item">🌱<br><span>Осадок</span></a>
         <a href="screen5.html" class="nav-item">📈<br><span>История</span></a>
     </nav>
 
     <script>
-        /**
-         * APPLICATION LOGIC: Internationalization (i18n)
-         * This script manages dynamic content updates based on the user's language selection.
-         */
-
-        // Data structure containing specific video assets and text for each language
         const content = {
             ru: {
                 title: "Видео-инструкция",
                 subtitle: "Как создать очищающую таблетку",
-                desc: "Нажмите на видео выше, чтобы посмотреть инструкцию на YouTube. Мы подготовили пошаговый рецепт для вас!",
+                desc: "Нажмите на превью, чтобы открыть видео-рецепт в YouTube.",
                 link: "https://youtube.com/shorts/xgOG7XGV6yU",
                 img: "https://i.ytimg.com/vi/xgOG7XGV6yU/maxresdefault.jpg"
             },
             kz: {
                 title: "Видео-нұсқаулық",
                 subtitle: "Тазарту таблеткасын қалай жасауға болады",
-                desc: "YouTube-тегі нұсқаулықты көру үшін жоғарыдағы бейнені басыңыз. Біз сіз үшін қадамдық рецепт дайындадық!",
+                desc: "YouTube-тегі рецептті көру үшін суретті басыңыз.",
                 link: "https://youtube.com/shorts/-2lgvHkOwbI",
                 img: "https://i.ytimg.com/vi/-2lgvHkOwbI/maxresdefault.jpg"
             },
             en: {
                 title: "Video Instruction",
                 subtitle: "How to create a purification tablet",
-                desc: "Click the video above to watch the tutorial on YouTube. We've prepared a step-by-step recipe for you!",
+                desc: "Click the preview to watch the recipe on YouTube.",
                 link: "https://youtube.com/shorts/WXGO58euats",
                 img: "https://i.ytimg.com/vi/WXGO58euats/maxresdefault.jpg"
             }
         };
 
-        /**
-         * UI Update Function
-         * @param {string} lang - The selected language code
-         */
         function setLanguage(lang) {
             const data = content[lang] || content.ru;
             
-            // Injecting text into the DOM (Document Object Model)
             document.getElementById('page-title').innerText = data.title;
             document.getElementById('page-subtitle').innerText = data.subtitle;
             document.getElementById('video-text').innerText = data.desc;
-            
-            // Updating the link and thumbnail dynamically
             document.getElementById('v-link').href = data.link;
             document.getElementById('v-img').src = data.img;
+
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById('l-' + lang);
+            if(activeBtn) activeBtn.classList.add('active');
             
-            // Persisting the user's choice for future sessions
             localStorage.setItem('userSelectedLang', lang);
+            localStorage.setItem('appLang', lang);
         }
 
-        // ENTRY POINT: Ensures the script runs only after the DOM is fully loaded
         window.onload = () => {
-            // Retrieve language from local storage or default to Russian
-            const savedLang = localStorage.getItem('userSelectedLang') || 'ru';
+            const savedLang = localStorage.getItem('userSelectedLang') || localStorage.getItem('appLang') || 'ru';
             setLanguage(savedLang);
         };
     </script>
